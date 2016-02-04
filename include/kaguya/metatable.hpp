@@ -148,26 +148,26 @@ namespace kaguya
 #if defined(_MSC_VER) && _MSC_VER <= 1800
 		//can not write  Ret class_type::* f on MSC++2013
 		template<typename Fun>
-		ClassMetatable& addMember(const char* name, Fun f)
+		ClassMetatable& addMember(const char* name, Fun f, bool typecheck = true)
 		{
 			if (has_key(name, true))
 			{
 				//already registerd
 				return *this;
 			}
-			addFunction(name, f);
+			addFunction(name, f, typecheck);
 			return *this;
 		}
 #else
 		template<typename Ret>
-		ClassMetatable& addMember(const char* name, Ret class_type::* f)
+		ClassMetatable& addMember(const char* name, Ret class_type::* f, bool typecheck = true)
 		{
 			if (has_key(name, true))
 			{
 				//already registerd
 				return *this;
 			}
-			addFunction(name, f);
+			addFunction(name, f, typecheck);
 			return *this;
 		}
 #endif
@@ -359,9 +359,9 @@ namespace kaguya
 			return *this;
 		}
 		template<typename Fun>
-		ClassMetatable& addFunction(const char* name, Fun f)
+		ClassMetatable& addFunction(const char* name, Fun f,bool typecheck = true)
 		{
-			function_map_[name].push_back(FunctorType(f));
+			function_map_[name].push_back(FunctorType(f, typecheck));
 			return *this;
 		}
 

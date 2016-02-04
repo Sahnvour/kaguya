@@ -171,9 +171,9 @@ namespace kaguya
 
 		//! set function 
 		template<typename T>
-		void setFunction(T f)
+		void setFunction(T f,bool typecheck=true)
 		{
-			parent_.setField(key_, FunctorType(f));
+			parent_.setField(key_, FunctorType(f, typecheck));
 		}
 
 

@@ -42,6 +42,8 @@ int main()
 #define ADD_BENCHMARK(function) functionmap.push_back(std::make_pair(#function,&function));
 	ADD_BENCHMARK(empty);
 	ADD_BENCHMARK(kaguya_api_benchmark______::simple_get_set);
+	ADD_BENCHMARK(kaguya_api_benchmark______::simple_get_set_without_typecheck);
+	ADD_BENCHMARK(kaguya_api_benchmark______::simple_get_set_include_property);
 	ADD_BENCHMARK(kaguya_api_benchmark______::property_access);
 	ADD_BENCHMARK(kaguya_api_benchmark______::object_pointer_register_get_set);
 	ADD_BENCHMARK(kaguya_api_benchmark______::call_native_function);

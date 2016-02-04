@@ -78,7 +78,7 @@ namespace kaguya
 			FunctorType() {}
 			FunctorType(const standard::shared_ptr<BaseInvoker>& ptr) :base_ptr_(ptr) {}
 
-			template<typename T>FunctorType(T f) : standard::shared_ptr<BaseInvoker>(create(f))
+			template<typename T>FunctorType(T f,bool typecheck=true) : standard::shared_ptr<BaseInvoker>(create(f, typecheck))
 			{
 			}
 		private:
@@ -86,11 +86,13 @@ namespace kaguya
 			struct FunInvoker :BaseInvoker {
 				typedef F func_type;
 				func_type func_;
-				FunInvoker(func_type fun) :func_(fun) {}
+				bool typecheck_;
+				FunInvoker(func_type fun, bool typecheck) :func_(fun), typecheck_(typecheck){}
 				virtual int argsCount()const {
 					return argCount(func_);
 				}
 				virtual bool checktype(lua_State *state, bool strictcheck) {
+					if (!typecheck_) { return true; }
 					if (strictcheck)
 					{
 						return strictCheckArgTypes(state, func_);
@@ -109,10 +111,10 @@ namespace kaguya
 				}
 			};
 			template<typename F>
-			static base_ptr_ create(F fun)
+			static base_ptr_ create(F fun,bool typecheck)
 			{
 				typedef FunInvoker<F> InvokerType;
-				return base_ptr_(new InvokerType(fun));
+				return base_ptr_(new InvokerType(fun, typecheck));
 			}
 		};
 

@@ -33,7 +33,47 @@ namespace kaguya_api_benchmark______
 			.addConstructor()
 			.addMember("set", &SetGet::set)
 			.addMember("get", &SetGet::get)
+			);
+
+		state(
+			"local getset = SetGet.new()\n"
+			//"getset={set = function(self,v) self.i = v end,get=function(self) return self.i end}\n"
+			"local times = 1000000\n"
+			"for i=1,times do\n"
+			"getset:set(i)\n"
+			"if(getset:get() ~= i)then\n"
+			"error('error')\n"
+			"end\n"
+			"end\n"
+			"");
+	}
+	void simple_get_set_include_property(kaguya::State& state)
+	{
+		state["SetGet"].setClass(kaguya::ClassMetatable<SetGet>()
+			.addConstructor()
+			.addMember("set", &SetGet::set)
+			.addMember("get", &SetGet::get)
 			.addProperty("a", &SetGet::a)
+			);
+
+		state(
+			"local getset = SetGet.new()\n"
+			//"getset={set = function(self,v) self.i = v end,get=function(self) return self.i end}\n"
+			"local times = 1000000\n"
+			"for i=1,times do\n"
+			"getset:set(i)\n"
+			"if(getset:get() ~= i)then\n"
+			"error('error')\n"
+			"end\n"
+			"end\n"
+			"");
+	}
+	void simple_get_set_without_typecheck(kaguya::State& state)
+	{
+		state["SetGet"].setClass(kaguya::ClassMetatable<SetGet>()
+			.addConstructor()
+			.addMember("set", &SetGet::set,false)
+			.addMember("get", &SetGet::get,false)
 			);
 
 		state(

@@ -3,6 +3,9 @@ namespace kaguya_api_benchmark______
 {
 
 	void simple_get_set(kaguya::State& state);
+	void simple_get_set_without_typecheck(kaguya::State& state);
+	void simple_get_set_include_property(kaguya::State& state);
+	
 	void object_pointer_register_get_set(kaguya::State& state);
 
 	void call_native_function(kaguya::State& state);
